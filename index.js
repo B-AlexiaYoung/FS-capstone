@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const cookieSession = require('cookie-session');
 const keys = require('./config/keys');
-require('./models/user');
+require('./models/User');
 require('./services/passport');
 // connection to database AWS and mlab
 mongoose.connect(keys.mongoURI,  {useNewUrlParser: true} );
