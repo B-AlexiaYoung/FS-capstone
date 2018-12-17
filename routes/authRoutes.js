@@ -12,6 +12,7 @@ module.exports = (app) => {
     })
 
     app.get('/api/verifiedUser', (req, res) =>{
+        console.log(req.user);
         res.send(req.user);
     })
 }
