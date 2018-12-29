@@ -40,6 +40,9 @@
    justify-content: space-evenly;
 
 }   
-navLink{
+a{
     padding:10px;
+}
+a:visited{
+    text-decoration : none;
 }

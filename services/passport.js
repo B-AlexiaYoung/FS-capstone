@@ -31,14 +31,14 @@ passport.use(
           const existingUser = await User.findOne({googleId:profile.id})
                 if(existingUser){
                  return done(null, existingUser);
-                }else{
+                }
                 const user= await new User({ googleId: profile.id,
                     //name: profile.displayName,
                     // email: emails.value
                     })
                     .save()
                     done(null, user);
-                }
+               
         }
     
     )
