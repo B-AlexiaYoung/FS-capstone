@@ -25,6 +25,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(jsonParser()); // place before routes
+app.use(bodyParser.urlencoded({ extended: false }));
+
 //app.use("./routes/mainRoutes", mainRoutes);
 //require returns a function and then it is immediately called
 
