@@ -4,13 +4,17 @@ const router = express.Router();
 
 const axios = require("axios");
 var qs = require('qs');
-
 let tmdbID = keys.tmdbID;
 const basetmbdURI = "https://api.themoviedb.org/3/trending/movie/week?api_key=";
 let trendingMoviesURI = basetmbdURI + tmdbID;
 
 const musicTokenURI = "https://accounts.spotify.com/api/token";
 const musicSearchURI = "https://api.spotify.com/v1/search?type=album&q=";
+//let User = require("../models/User")
+let mongoose = require("mongoose");
+const requireLogin = require('../middlewares/requireLogin')
+
+const User = mongoose.model('users');
 
 module.exports = app => {
   app.get("/api/trending", async (req, res) => {
@@ -115,4 +119,68 @@ module.exports = app => {
      });
 res.send(albums);
   });
-};
+
+  
+app.get("/api/FavMovies",(req,res,next)=>{
+  //make database request and send to client
+  res.send(req.user)
+  //console.log(req.user,"wibb");
+})
+
+  app.post("/api/FavMovies/update",requireLogin,(req, res, next)=>{
+    //make database find and update
+    console.log("mugs",req.body.savMovs.name);
+    console.log("mugs",req.body.savMovs.id);
+    console.log("mugs",req.body.savMovs.poster);
+    console.log("mugs",req.body.savMovs.movieReleaseDate);
+
+    console.log(req.user.googleId)
+// title, movieId, poster, movieReleaseDate
+      
+        User.findOneAndUpdate({googleId:req.user.googleId}, {$push : {
+          movieList:{
+            title: req.body.savMovs.name,
+            movieId:req.body.savMovs.id.toString(),
+            poster: req.body.savMovs.poster.toString(),
+            movieReleaseDate:req.body.savMovs.movieReleaseDate.toString()
+
+          }
+          
+        }},
+        {new: true},
+        (err, movie) => {
+          // Handle any possible database errors
+              if (err) return res.status(500).send(err);
+              console.log(res.body)
+              return res.send(movie);
+              //return res.status(200);
+          }
+        );
+      });
+
+      // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      // can get rid of this if it doen't work
+  // get favorite movies
+  app.get("/api/FavMovies",requireLogin,(req, res, next)=>{
+    //search by googleId and retrieve movieList
+    User.findOne({googleId:req.user.googleId}, 'movieList',(err, movie) => {
+      if (err) return res.status(500).send(err);
+              console.log(res.body)
+              return res.statuscode(200);
+    })
+    
+    // handle errors (no movies saved)and set statuscode to 404
+    // set response code to 200
+    //send movieList to client
+  })
+  // get get rid of the above between lines 164 to 176 get for api/FavMovies
+  // +++++++++++++++++++++++++++++++++++++++
+
+
+
+
+  
+  //++++++++++++++++++++++++++++++++++++
+ }; // do not remove
+
+

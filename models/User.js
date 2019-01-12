@@ -13,13 +13,21 @@ const userSchema = new Schema({
         //required: true,
     },
     
-    movieList : {
+    movieList:  [{
+        
         title: {
-            type: String
-        },
-        movieId:{
             type:String
-        }
-    },
+        },
+        movieId: {
+            type:String
+        },
+        poster: {
+            type:String  
+        },
+        movieReleaseDate: {
+            type:String
+        },
+    
+    }]
 });
 mongoose.model('users', userSchema);

@@ -9,9 +9,9 @@ import TrendingMovie from "./trending/Trending";
 //const Header = () => <h2>Header</h2>;
 //const Landing = () => <h2>Landing</h2>;
 //const Deck = () => <h2> Deck</h2>;
+import FavMovies from "./trending/FavMovies";
 
-const MovieList = () => <h2>MovieList</h2>;
-const SongList = () => <h2>SongList</h2>;
+//const MovieList = () => <h2>MovieList</h2>;
 
 class App extends Component {
   componentDidMount() {
@@ -22,19 +22,8 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <Header />
-          {/* <Route path= '/api/movie' exact component ={fetchMovie} /> */}
           <Route path= '/' exact component ={TrendingMovie} />
-          {/* <Route
-            path="/"
-            exact
-            render={props => (
-              <div className="row">
-                <TrendingMovie />
-              </div>
-            )}
-          /> */}
-          <Route path="/movieList" component={MovieList} />
-          <Route path="/songlist" component={SongList} />
+          <Route path='/FavMovies' component={FavMovies} />
         </div>
       </BrowserRouter>
     );
