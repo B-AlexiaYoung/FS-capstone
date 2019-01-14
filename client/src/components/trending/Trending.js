@@ -146,9 +146,16 @@ class TrendingMovie extends Component {
                 <img  src= {movie.poster} alt={movie.title}></img>
                 <p >{movie.title}</p>
                 <p>{movie.release_date}</p>
+                <p>{movie.overview}</p>
+
                 <button onClick={(e) => this.movieAlbumHandler({name:movie.title, id:movie.id}, e)}>Soundtrack</button>
                 <form>
-                <button action="submit" onClick={(e) => this.favMovieHandler({name:movie.title, id:movie.id,poster:movie.poster, movieReleaseDate:movie.release_date }, e)}>Save to favs</button>
+                <button action="submit" onClick={(e) => this.favMovieHandler({
+                  name:movie.title, 
+                  id:movie.id,
+                  poster:movie.poster,
+                  overview:movie.overview,
+                  movieReleaseDate:movie.release_date }, e)}>Save to favs</button>
                 </form>
                <div></div>
               </Aux>

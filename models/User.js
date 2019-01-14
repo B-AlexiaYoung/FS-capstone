@@ -27,6 +27,9 @@ const userSchema = new Schema({
         movieReleaseDate: {
             type:String
         },
+        overview: {
+            type:String
+        },
     
     }]
 });

@@ -64,7 +64,7 @@ module.exports = app => {
     };
     let tokenJSON = await axios.post(musicTokenURI, qs.stringify(body), { headers: headers });
 
-    console.log(tokenJSON.data);
+    //console.log(tokenJSON.data);
 
     return tokenJSON.data.access_token;
   }
@@ -72,7 +72,7 @@ module.exports = app => {
   app.get("/api/soundtrack/:album", async (req, res) => {
     let searchTerm = req.params.album;
     //let searchTerm = '\"bird\" ';
-    console.log("wibble" + searchTerm);
+    //console.log("wibble" + searchTerm);
     let token = await getSpotifyToken();
     let baseSpotifySearch ="https://api.spotify.com/v1/search?type=album,artist&q=";
     let musicSearchURI = baseSpotifySearch + searchTerm;
@@ -121,28 +121,30 @@ res.send(albums);
   });
 
   
-app.get("/api/FavMovies",(req,res,next)=>{
-  //make database request and send to client
-  res.send(req.user)
-  //console.log(req.user,"wibb");
-})
+// app.get("/api/FavMovies",(req,res,next)=>{
+//   //make database request and send to client
+//   res.send(req.user)
+//   //console.log(req.user,"wibb");
+// })
 
   app.post("/api/FavMovies/update",requireLogin,(req, res, next)=>{
     //make database find and update
-    console.log("mugs",req.body.savMovs.name);
-    console.log("mugs",req.body.savMovs.id);
-    console.log("mugs",req.body.savMovs.poster);
-    console.log("mugs",req.body.savMovs.movieReleaseDate);
+    // console.log("mugs",req.body.savMovs.name);
+    // console.log("mugs",req.body.savMovs.id);
+    // console.log("mugs",req.body.savMovs.poster);
+    // console.log("mugs",req.body.savMovs.movieReleaseDate);
+    // console.log("mugs",req.body.savMovs.overview);
 
-    console.log(req.user.googleId)
+    // console.log(req.user.googleId)
 // title, movieId, poster, movieReleaseDate
       
         User.findOneAndUpdate({googleId:req.user.googleId}, {$push : {
           movieList:{
             title: req.body.savMovs.name,
-            movieId:req.body.savMovs.id.toString(),
-            poster: req.body.savMovs.poster.toString(),
-            movieReleaseDate:req.body.savMovs.movieReleaseDate.toString()
+            movieId:req.body.savMovs.id,
+            poster: req.body.savMovs.poster,
+            movieReleaseDate:req.body.savMovs.movieReleaseDate,
+            overview:req.body.savMovs.overview
 
           }
           
@@ -152,7 +154,8 @@ app.get("/api/FavMovies",(req,res,next)=>{
           // Handle any possible database errors
               if (err) return res.status(500).send(err);
               console.log(res.body)
-              return res.send(movie);
+              res.redirect("/FavMovies")
+              //return res.send(movie);
               //return res.status(200);
           }
         );
@@ -164,9 +167,13 @@ app.get("/api/FavMovies",(req,res,next)=>{
   app.get("/api/FavMovies",requireLogin,(req, res, next)=>{
     //search by googleId and retrieve movieList
     User.findOne({googleId:req.user.googleId}, 'movieList',(err, movie) => {
-      if (err) return res.status(500).send(err);
-              console.log(res.body)
-              return res.statuscode(200);
+      if (err) {return res.status(500).send(err) ;
+      }else{ 
+        console.log("big Whoop");
+        res.send(req.user);
+        return res.status(200)
+       };
+      
     })
     
     // handle errors (no movies saved)and set statuscode to 404
@@ -179,7 +186,7 @@ app.get("/api/FavMovies",(req,res,next)=>{
 
 
 
-  
+
   //++++++++++++++++++++++++++++++++++++
  }; // do not remove
 
