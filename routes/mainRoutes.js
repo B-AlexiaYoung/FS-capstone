@@ -10,14 +10,13 @@ let trendingMoviesURI = basetmbdURI + tmdbID;
 
 const musicTokenURI = "https://accounts.spotify.com/api/token";
 const musicSearchURI = "https://api.spotify.com/v1/search?type=album&q=";
-//let User = require("../models/User")
 let mongoose = require("mongoose");
 const requireLogin = require('../middlewares/requireLogin')
 
 const User = mongoose.model('users');
-
 module.exports = app => {
   app.get("/api/trending", async (req, res) => {
+    
     //console.log("app.get");
     // console.log(trendingMoviesURI);
     let movieJSON = await axios.get(trendingMoviesURI);
@@ -33,7 +32,7 @@ module.exports = app => {
         overview: results.overview,
         poster: "https://image.tmdb.org/t/p/w154" + results.poster_path,
         backdrop: "https://image.tmdb.org/t/p/w780" + results.backdrop_path,
-        genre_ids: results.genre_ids
+        genre_ids: results.genre_ids,
       };
     });
 
@@ -41,7 +40,7 @@ module.exports = app => {
   });
 
   async function getSpotifyToken() {
-  let encoded = 'YTE1OWUwN2YzN2JiNDc3ZjgwYWEyZmZiYTk5NDIxZDU6NzRlMzI0YzU1MDJkNDcwNmEwNjM1NmM0N2ExYTM4ZWQ=';
+  //let encoded = 'YTE1OWUwN2YzN2JiNDc3ZjgwYWEyZmZiYTk5NDIxZDU6NzRlMzI0YzU1MDJkNDcwNmEwNjM1NmM0N2ExYTM4ZWQ=';
   //  let spotifyClientData = keys.spotifyClientID + ":" + keys.spotifyClientSecret;
   //  let buff = new Buffer(spotifyClientData);  
   //  let base64data = buff.toString('base64');
@@ -127,17 +126,20 @@ res.send(albums);
 //   //console.log(req.user,"wibb");
 // })
 
-  app.post("/api/FavMovies/update",requireLogin,(req, res, next)=>{
+  app.post("/api/FavMovies/update",(req, res,next)=>{
     //make database find and update
     // console.log("mugs",req.body.savMovs.name);
-    // console.log("mugs",req.body.savMovs.id);
-    // console.log("mugs",req.body.savMovs.poster);
-    // console.log("mugs",req.body.savMovs.movieReleaseDate);
-    // console.log("mugs",req.body.savMovs.overview);
+    //console.log(req.user);
+    if(!req.user){
+        res.status(401).send({error:"You must be logged in"})
+    }
 
-    // console.log(req.user.googleId)
 // title, movieId, poster, movieReleaseDate
-      
+
+  
+ //return res.redirect('/Login')
+if(req.user!== undefined) { 
+      console.log(req.user);
         User.findOneAndUpdate({googleId:req.user.googleId}, {$push : {
           movieList:{
             title: req.body.savMovs.name,
@@ -150,26 +152,27 @@ res.send(albums);
           
         }},
         {new: true},
-        (err, movie) => {
+        (error, movie) => {
+          //console.log("weee",error)
           // Handle any possible database errors
-              if (err) return res.status(500).send(err);
-              console.log(res.body)
-              res.redirect("/FavMovies")
+              //if (error) return res.status(500).send(err);
+              //console.log(res.body)
+              //res.redirect("/Login")
               //return res.send(movie);
               //return res.status(200);
           }
-        );
+          
+        )
+        res.status(200).send({saved:"All set and saved to Favs"})
+        }
       });
 
-      // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      // can get rid of this if it doen't work
   // get favorite movies
-  app.get("/api/FavMovies",requireLogin,(req, res, next)=>{
-    //search by googleId and retrieve movieList
+  app.get("/api/FavMovies", async(req, res, next)=>{
     User.findOne({googleId:req.user.googleId}, 'movieList',(err, movie) => {
       if (err) {return res.status(500).send(err) ;
       }else{ 
-        console.log("big Whoop");
+        //console.log("big Whoop");
         res.send(req.user);
         return res.status(200)
        };
@@ -177,11 +180,8 @@ res.send(albums);
     })
     
     // handle errors (no movies saved)and set statuscode to 404
-    // set response code to 200
-    //send movieList to client
+    
   })
-  // get get rid of the above between lines 164 to 176 get for api/FavMovies
-  // +++++++++++++++++++++++++++++++++++++++
 
 
 

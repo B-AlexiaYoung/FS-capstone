@@ -7,23 +7,26 @@ import Aux from '../../hoc/Auxillary';
 class Header extends Component {
     show(){
         switch(this.props.auth){
-            case null:
-            return ;
-         case false:
+        case null:
+        return ;
+        case false:
         return (
         <Aux>
         
             <li>
-            <a href ="/auth/google" alt="sign in with google">Sign In with Google</a>
+            <a href= "/auth/google" alt="sign in with google">Sign in with Google</a>
             </li>
-            <li>
-            <a href ="/signIn" alt="sign in ">Sign In</a>
-            </li> 
+             
         
         </Aux>
         )
         default:
-        return   <a href="/api/logout" alt="sign out ">Sign out</a>;
+        return   (
+        <Aux>
+        <a href="/api/logout" alt="sign out ">Sign out</a>
+        <a href="/favMovies" alt="saved movies">My Movies</a>
+        </Aux>      
+        );
         }
     }
     render(){
@@ -31,7 +34,9 @@ class Header extends Component {
         return (
             <div className={classes.NavWrapper}>
 
-                <h2 className={classes.Logo}>Mumo</h2>
+                <h2 className={classes.Logo} >
+                <a href="/" >Mumo </a>
+                </h2>
                 <ul className={classes.NavItems}>
                 </ul>
                 {this.show()}

@@ -25,19 +25,22 @@ class FavMovies extends Component {
     const getSavedFavs = async () => {
       const myMovies = await axios.get("/api/favMovies");
       currentMovFavs = await myMovies.data.movieList;
+      //console.log("myMovies", myMovies);
       if (this.state.loading) {
         this.setState ({
           loading: false,
-          movies: currentMovFavs
+          movies: currentMovFavs,
         });
       }
       // when response has been received iterate over the response and display
       //favorite movies.
-      console.table(currentMovFavs);
+      //console.table(currentMovFavs);
+      //console.log(this.state.movies)
     };
     getSavedFavs();
   }
   render() {
+    
     if (this.state.loading){
         return ( <p>Loading</p>  )
     }else if(this.state.movies !==undefined) {
@@ -45,7 +48,7 @@ class FavMovies extends Component {
            <Aux>
         {this.state.movies.map((mov,i) =>{
             return(
-                <Aux key= {mov.id} id={mov.id}>
+                <Aux key= {mov.movieId} id={mov.movieId}>
                 <img src={mov.poster} alt={mov.name} />
                 <p>{mov.title}</p>
                 <p>{mov.release_date}</p>

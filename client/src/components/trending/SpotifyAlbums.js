@@ -20,9 +20,10 @@ return(
             <Aux className ={classes.show}>
             <h2>Best match from Spotify</h2>
             <img src= {props.album[0].image} alt={props.album[0].name}/>
-            <a href={props.album[0].external_urls} target= "_blank" alt= {props.album[0].name}>{props.album[0].name}</a>
+            <div className={classes.moveRight}>
+            <a className={classes.AlbumLink} href={props.album[0].external_urls} target= "_blank" alt= {props.album[0].name}>{props.album[0].name}</a>
             <p>{props.album[0].release_date}</p>
-            
+            </div>
              </Aux>
             )
      

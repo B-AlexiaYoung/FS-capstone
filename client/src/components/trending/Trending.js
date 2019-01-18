@@ -4,17 +4,19 @@ import Aux from "../../hoc/Auxillary";
 import axios from "axios";
 //import classes from "./Trending.css";
 import SpotifyAlbums from"./SpotifyAlbums";
-import Modal from "./UI/Modal"
+import Modal from "./UI/Modal";
+import classes from "./Trending.css"
 //import requireLogin from ""
 //import keys from '../../config/keys';
 let json;
 let soundtrackJSON;
+//let saveThisMov;
 //let savedMovies;
 
 //memo:  Could have used this too for the button
 //<button onClick={ this.movieAlbumHandler.bind(this,{name:movie.title})}> soundtrack</button>
 
-let spotifyMusic;
+//let spotifyMusic;
 class TrendingMovie extends Component {
   constructor(props){
   super(props);
@@ -51,12 +53,14 @@ class TrendingMovie extends Component {
     const trending = async () => {
       //console.log("trending");
       const res = await axios.get("/api/trending");
-      //console.log(res)
+      console.log(res)
       json = await res.data;
+     
       if (json !== undefined) {
         this.setState ({
           loading: false,
-          movies: json
+          movies: json,
+          
         });
       }
     };
@@ -71,15 +75,11 @@ class TrendingMovie extends Component {
   movieAlbumHandler = (props) =>{
     let newSearch = encodeURIComponent(props.name);
     
-    //console.log("newsearch" + newSearch);
     this.setState((state) => ({ show : true}));  
     const getMovieAlbum = async ()=>{
-      //console.log("hello");
       let soundtrack = await axios.get("/api/soundtrack/" + newSearch);
-      //console.log(soundtrack)
       soundtrackJSON = await soundtrack.data;
-      //console.log(soundtrackJSON.length);
-      //console.log(soundtrackJSON)
+     
 
       if (soundtrackJSON !== undefined) {
         this.setState ({
@@ -91,13 +91,12 @@ class TrendingMovie extends Component {
           
         })
         
-        //console.log(spotifyMusic[0].name);
-        //console.log(this.state.album[0].name);
+        
       }else {
         this.setState({noMatch:true, show:true})
         
       }
-      spotifyMusic=[...this.state.album];
+      //spotifyMusic=[...this.state.album];
       }
     getMovieAlbum();
   }//end movieAlbumHandle 
@@ -109,17 +108,23 @@ class TrendingMovie extends Component {
   }
   favMovieHandler =(props,e) =>{
     e.preventDefault();
-    //  let bdy={...props};
     let savMovs ={...props}
-    //console.log(e.googleId)
-    //savMovs.googld =(e.googleId)
-    console.log(savMovs);
+    //    console.log(savMovs);
+    
 
-       axios.post("/api/FavMovies/update", {savMovs})
+    axios.post("/api/FavMovies/update", {savMovs})
+    .then(function (res) {
       
+      alert("All set and saved to Favs");
+    })
+    .catch(function (error) {
+      //console.log(error);
+      alert("Login to save this movie")
+    });
+    
       
+
   }
-
   render() {
     if (this.state.loading) {
       return (
@@ -134,7 +139,7 @@ class TrendingMovie extends Component {
       //console.log(soundtrackJSON.length);
       return (
         <Aux>
-          <h2>Trending</h2>
+          <h2>Trending Movies</h2>
           <Modal show = {this.state.show} closeModal ={this.closeModalHandler}>
                 <SpotifyAlbums  album={this.state.album} noMatch = {this.state.noMatch}></SpotifyAlbums>
           </Modal>
@@ -143,11 +148,15 @@ class TrendingMovie extends Component {
           { this.state.movies.map((movie, i) => { 
             return (
               <Aux key= {movie.id} id={movie.id}>
+                <div className={classes.Container}>
+                <div className={classes.Content}>
                 <img  src= {movie.poster} alt={movie.title}></img>
-                <p >{movie.title}</p>
+                </div>
+                <div>
+                <h3>{movie.title}</h3>
                 <p>{movie.release_date}</p>
                 <p>{movie.overview}</p>
-
+                </div>
                 <button onClick={(e) => this.movieAlbumHandler({name:movie.title, id:movie.id}, e)}>Soundtrack</button>
                 <form>
                 <button action="submit" onClick={(e) => this.favMovieHandler({
@@ -155,9 +164,9 @@ class TrendingMovie extends Component {
                   id:movie.id,
                   poster:movie.poster,
                   overview:movie.overview,
-                  movieReleaseDate:movie.release_date }, e)}>Save to favs</button>
+                  movieReleaseDate:movie.release_date }, e)}>Favs</button>
                 </form>
-               <div></div>
+               </div>
               </Aux>
 
             )

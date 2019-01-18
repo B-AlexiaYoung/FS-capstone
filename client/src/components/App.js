@@ -10,6 +10,7 @@ import TrendingMovie from "./trending/Trending";
 //const Landing = () => <h2>Landing</h2>;
 //const Deck = () => <h2> Deck</h2>;
 import FavMovies from "./trending/FavMovies";
+import Login from "./trending/Login";
 
 //const MovieList = () => <h2>MovieList</h2>;
 
@@ -24,6 +25,8 @@ class App extends Component {
           <Header />
           <Route path= '/' exact component ={TrendingMovie} />
           <Route path='/FavMovies' component={FavMovies} />
+          <Route path='/Login' component={Login} />
+
         </div>
       </BrowserRouter>
     );

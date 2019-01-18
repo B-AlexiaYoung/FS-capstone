@@ -1,3 +1,12 @@
 .show{
     display:block;
 }
+.AlbumLink{
+    color:black;
+}
+.InLine{
+    display:inline-block;
+}
+.MoveRight{
+    float: right;
+}

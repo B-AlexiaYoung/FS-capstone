@@ -1,13 +1,35 @@
 
 /* color scheme: #2C3531  #116466   #FFCB9A #D1E8E2     */
 .Container{
-    width: 95%;
-    background-color: #D9b08C;
+    width: 85%;
+    background-color:#2C3531;
     font-family : Roboto, sans-serif;
-    display: flex;
-    
+    display: block;
+    border: 1px solid #D9b08C;
+    margin: auto;
+    padding: 1em;
+    margin-bottom:.5em;
+    border-radius:5px;
 
 }
-/* .show{
-    display : none;
-} */
+h2{
+text-align: center;
+}
+button{
+    height:3em;
+    border-radius:5px;
+    margin:.5em;
+}
+@media (min-width: 768px) {
+
+.Container{
+width:80%;
+display: flex;
+max-width:1500px;
+
+}
+.Content{
+    margin:.5em;
+    padding: .5em;
+}
+}
