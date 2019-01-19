@@ -115,11 +115,14 @@ class TrendingMovie extends Component {
     axios.post("/api/FavMovies/update", {savMovs})
     .then(function (res) {
       
-      alert("All set and saved to Favs");
+      alert("All set");
     })
     .catch(function (error) {
-      //console.log(error);
+      console.log(error);
+      if(error){
+         console.log(error)
       alert("Login to save this movie")
+      }
     });
     
       

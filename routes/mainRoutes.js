@@ -119,68 +119,73 @@ module.exports = app => {
 res.send(albums);
   });
 
-  
-// app.get("/api/FavMovies",(req,res,next)=>{
-//   //make database request and send to client
-//   res.send(req.user)
-//   //console.log(req.user,"wibb");
-// })
+app.post("/api/FavMovies/update",(req, res,next)=>{
 
-  app.post("/api/FavMovies/update",(req, res,next)=>{
-    //make database find and update
-    // console.log("mugs",req.body.savMovs.name);
-    //console.log(req.user);
-    if(!req.user){
-        res.status(401).send({error:"You must be logged in"})
-    }
+let result;
+let dupeThis= req.body.savMovs.id;
+console.log(dupeThis)
 
-// title, movieId, poster, movieReleaseDate
+//let query = {googleId:req.user.googleId}, {movieList: {$elemMatch:{movieId: req.body.savMovs.id}}
+    User.findOne({googleId:req.user.googleId},{movieList: {$elemMatch:{movieId: req.body.savMovs.id}}}, function (err, data){
+      if(err){
+        console.log("error");
+      }
+      result = data;
+      console.log("result", result.movieList.length)
+      console.log("data", data)
 
-  
- //return res.redirect('/Login')
-if(req.user!== undefined) { 
-      console.log(req.user);
+      //return result
+    }).then((data =>{
+      if(result.movieList.length===0){
+        console.log("update");
         User.findOneAndUpdate({googleId:req.user.googleId}, {$push : {
           movieList:{
-            title: req.body.savMovs.name,
-            movieId:req.body.savMovs.id,
-            poster: req.body.savMovs.poster,
-            movieReleaseDate:req.body.savMovs.movieReleaseDate,
-            overview:req.body.savMovs.overview
-
+          title: req.body.savMovs.name,
+          movieId:req.body.savMovs.id,
+          poster: req.body.savMovs.poster,
+          movieReleaseDate:req.body.savMovs.movieReleaseDate,
+          overview:req.body.savMovs.overview
           }
-          
-        }},
-        {new: true},
-        (error, movie) => {
-          //console.log("weee",error)
-          // Handle any possible database errors
-              //if (error) return res.status(500).send(err);
-              //console.log(res.body)
-              //res.redirect("/Login")
-              //return res.send(movie);
-              //return res.status(200);
+          }},
+          {new: true},
+          (error, movie) => {
           }
-          
-        )
-        res.status(200).send({saved:"All set and saved to Favs"})
-        }
-      });
+               
+               ) 
+      }else{
+        console.log("found dupe");
+      }
+     res.status(200).send({saved:"All set"})
 
+    })
+     
+    )
+
+  }) 
   // get favorite movies
   app.get("/api/FavMovies", async(req, res, next)=>{
+    //console.log(req.user)
+    if(req.user=== undefined){
+      var error = new Error("You must be logged in")
+      error.code = 401
+      return res.status(401).send({error:error})
+  }else{
     User.findOne({googleId:req.user.googleId}, 'movieList',(err, movie) => {
       if (err) {return res.status(500).send(err) ;
       }else{ 
         //console.log("big Whoop");
         res.send(req.user);
-        return res.status(200)
+        return res.status(404)
        };
       
     })
-    
+  
+    .catch(function (err){
+      console.log(err);
+      //res.send ("")
     // handle errors (no movies saved)and set statuscode to 404
-    
+    })
+  }//end else
   })
 
 

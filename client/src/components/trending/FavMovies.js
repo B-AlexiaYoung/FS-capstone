@@ -24,26 +24,28 @@ class FavMovies extends Component {
   componentDidMount() {
     const getSavedFavs = async () => {
       const myMovies = await axios.get("/api/favMovies");
+      
       currentMovFavs = await myMovies.data.movieList;
-      //console.log("myMovies", myMovies);
+      console.log("myMovies", myMovies.data);
       if (this.state.loading) {
         this.setState ({
           loading: false,
           movies: currentMovFavs,
+          
         });
       }
       // when response has been received iterate over the response and display
       //favorite movies.
       //console.table(currentMovFavs);
-      //console.log(this.state.movies)
+      console.log(this.state.movies.length);
     };
     getSavedFavs();
   }
   render() {
     
     if (this.state.loading){
-        return ( <p>Loading</p>  )
-    }else if(this.state.movies !==undefined) {
+        return ( <p>Make sure you logged in, so we can get your list. </p>  )
+    } else if(this.state.movies !==undefined) {
        return(
            <Aux>
         {this.state.movies.map((mov,i) =>{
@@ -61,9 +63,9 @@ class FavMovies extends Component {
         
     </Aux>
     )
-  }else {
+  } else if(this.state.movies.length===0){
     return (
-        <p>You must be logged in </p>
+        <p>No movies saved yet </p>
         
     )
 }
