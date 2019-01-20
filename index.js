@@ -43,7 +43,7 @@ app.get('*', (req,res) =>{
     res.sendFile(path.resolve(__dirname,'client','build','index.html'));
     }
 )
-
+}
 
 //server listening on environmental PORT or localhost 5000;
 const PORT = process.env.PORT || 5000;
