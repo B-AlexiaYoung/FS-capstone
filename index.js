@@ -32,17 +32,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 require('./routes/authRoutes')(app);
 require('./routes/mainRoutes')(app);
-// for heroku production env
-if(process.env.NODE_ENV === "production"){
-//serve production assets main.js main.css
-app.use(express.static('client.build'));
 
-//express to forward html file if route is not recognized
-const path = require('path');
-app.get('*', (req,res) =>{
-    res.sendFile(path.resolve(__dirname,'client','build','index.html'));
-    }
-)
+// for heroku production env
+if(process.env.NODE_ENV === 'production'){
+//serve production assets main.js main.css
+    app.use(express.static('client/build'));
+    //express to forward html file if route is not recognized
+    const path = require('path');
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname,'client','build','index.html'));
+        }
+    )
 }
 
 //server listening on environmental PORT or localhost 5000;
