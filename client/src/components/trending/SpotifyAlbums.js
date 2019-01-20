@@ -19,8 +19,8 @@ return(
 return(
             <Aux className ={classes.show}>
             <h2>Best match from Spotify</h2>
+            <div className ={classes.TrackStyle}>
             <img src= {props.album[0].image} alt={props.album[0].name}/>
-            <div className={classes.moveRight}>
             <a className={classes.AlbumLink} href={props.album[0].external_urls} target= "_blank" rel="noopener noreferrer" alt= {props.album[0].name}>{props.album[0].name}</a>
             <p>{props.album[0].release_date}</p>
             </div>

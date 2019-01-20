@@ -1,5 +1,6 @@
 .show{
     display:block;
+    margin:0 auto;
 }
 .AlbumLink{
     color:black;
@@ -7,6 +8,9 @@
 .InLine{
     display:inline-block;
 }
-.MoveRight{
-    float: right;
+.TrackStyle{
+    text-align:center;
+}
+@media (min-width: 768px) {
+
 }
