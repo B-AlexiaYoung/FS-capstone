@@ -1,15 +1,15 @@
 'use strict';
 const express = require('express');
 const mongoose = require('mongoose');
-const passport = require('passport');
 const cookieSession = require('cookie-session');
+const passport = require('passport');
 const keys = require('./config/keys');
 const bodyParser = require("body-parser")
 const jsonParser = require("body-parser").json;
 require('./models/User');
 require('./services/passport');
 mongoose.connect(keys.mongoURI,  {useNewUrlParser: true} );
-const mainRoutes = require('./routes/mainRoutes');
+//const mainRoutes = require('./routes/mainRoutes');
 // connection to database AWS and mlab
 const app = express();
 
@@ -20,12 +20,12 @@ app.use(
         keys:[keys.cookieKey]
     })
 )
+app.use(jsonParser()); // place before routes
+app.use(bodyParser.urlencoded({ extended: false }));
 // tell passport to use sessions
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(jsonParser()); // place before routes
-app.use(bodyParser.urlencoded({ extended: false }));
 
 //app.use("./routes/mainRoutes", mainRoutes);
 //require returns a function and then it is immediately called
