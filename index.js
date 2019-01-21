@@ -3,8 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
-const keys = require('./config/keys');
 const bodyParser = require("body-parser")
+const keys = require('./config/keys');
 const jsonParser = require("body-parser").json;
 require('./models/User');
 require('./services/passport');
@@ -13,6 +13,8 @@ mongoose.connect(keys.mongoURI,  {useNewUrlParser: true} );
 // connection to database AWS and mlab
 const app = express();
 
+app.use(jsonParser()); // place before routes
+app.use(bodyParser.urlencoded({ extended: false }));
 //make use of sessions
 app.use(
     cookieSession({
@@ -20,8 +22,6 @@ app.use(
         keys:[keys.cookieKey]
     })
 )
-app.use(jsonParser()); // place before routes
-app.use(bodyParser.urlencoded({ extended: false }));
 // tell passport to use sessions
 app.use(passport.initialize());
 app.use(passport.session());
