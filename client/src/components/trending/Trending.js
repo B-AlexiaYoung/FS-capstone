@@ -53,7 +53,7 @@ class TrendingMovie extends Component {
     const trending = async () => {
       //console.log("trending");
       const res = await axios.get("/api/trending");
-      console.log(res)
+      //console.log(res)
       json = await res.data;
      
       if (json !== undefined) {
@@ -118,7 +118,7 @@ class TrendingMovie extends Component {
       alert("All set");
     })
     .catch(function (error) {
-      console.log(error);
+      //console.log(error);
       if(error){
          console.log(error)
       alert("Login to save this movie")

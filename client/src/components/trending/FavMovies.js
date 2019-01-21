@@ -26,7 +26,7 @@ class FavMovies extends Component {
       const myMovies = await axios.get("/api/favMovies");
       
       currentMovFavs = await myMovies.data.movieList;
-      console.log("myMovies", myMovies.data);
+      //console.log("myMovies", myMovies.data);
       if (this.state.loading) {
         this.setState ({
           loading: false,
@@ -37,7 +37,7 @@ class FavMovies extends Component {
       // when response has been received iterate over the response and display
       //favorite movies.
       //console.table(currentMovFavs);
-      console.log(this.state.movies.length);
+      //console.log(this.state.movies.length);
     };
     getSavedFavs();
   }

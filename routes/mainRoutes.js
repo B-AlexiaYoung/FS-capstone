@@ -128,16 +128,16 @@ console.log(dupeThis)
 //let query = {googleId:req.user.googleId}, {movieList: {$elemMatch:{movieId: req.body.savMovs.id}}
     User.findOne({googleId:req.user.googleId},{movieList: {$elemMatch:{movieId: req.body.savMovs.id}}}, function (err, data){
       if(err){
-        console.log("error");
+        //console.log("error");
       }
       result = data;
-      console.log("result", result.movieList.length)
-      console.log("data", data)
+      //console.log("result", result.movieList.length)
+      //console.log("data", data)
 
       //return result
     }).then((data =>{
       if(result.movieList.length===0){
-        console.log("update");
+        //console.log("update");
         User.findOneAndUpdate({googleId:req.user.googleId}, {$push : {
           movieList:{
           title: req.body.savMovs.name,
@@ -153,7 +153,7 @@ console.log(dupeThis)
                
                ) 
       }else{
-        console.log("found dupe");
+        //console.log("found dupe");
       }
      res.status(200).send({saved:"All set"})
 

@@ -2,7 +2,7 @@ import React from 'react';
 import Aux from '../../hoc/Auxillary';
 import classes from "./SpotifyAlbums.css";
 const SpotifyAlbums =(props)=>{
-    console.log(props.album[0]);
+    //console.log(props.album[0]);
     //console.log(props.noMatch);
     // if(props.album){
 if (props.noMatch===undefined|| props.noMatch===true ){
