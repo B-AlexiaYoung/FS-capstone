@@ -6,5 +6,5 @@ module.exports = {
     cookieKey: process.env.COOKIE_KEY,
     tmdbID: process.env.TMDB_ID,
     spotifyClientID: process.env.SPOTIFY_CLIENT_ID,
-    spotifySecret: process.env.SPOTIFY_CLIENT_SECRET
+    spotifyClientSecret: process.env.SPOTIFY_CLIENT_SECRET
 };
