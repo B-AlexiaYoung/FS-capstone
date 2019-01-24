@@ -7,7 +7,6 @@ module.exports = (app) => {
     app.get('/auth/google/callback', passport.authenticate('google'),
         (req, res) =>{
             res.redirect('/FavMovies')
-            //res.body = req.user
             res.send(req.user)
         }
     );
@@ -18,7 +17,6 @@ module.exports = (app) => {
     })
 
     app.get('/api/verifiedUser', (req, res) =>{
-        //console.log(req.user);
         res.send(req.user);
     })
     

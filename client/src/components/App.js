@@ -24,7 +24,7 @@ class App extends Component {
         <div>
           <Header />
           <Route path= '/' exact component ={TrendingMovie} />
-          <Route path='/FavMovies' component={FavMovies} />
+          <Route path= '/FavMovies' render = {props => <FavMovies {...props}/>} />
           <Route path='/Login' component={Login} />
 
         </div>

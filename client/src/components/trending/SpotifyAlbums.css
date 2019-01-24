@@ -1,16 +1,13 @@
-.show{
-    display:block;
-    margin:0 auto;
+.show {
+  display: block;
+  margin: 0 auto;
 }
-.AlbumLink{
-    color:black;
+.AlbumLink {
+  color: lightseagreen;
 }
-.InLine{
-    display:inline-block;
+.InLine {
+  display: inline-block;
 }
-.TrackStyle{
-    text-align:center;
-}
-@media (min-width: 768px) {
-
+.TrackStyle {
+  text-align: center;
 }

@@ -20,7 +20,7 @@ button {
 }
 @media (min-width: 768px) {
   .Container {
-    width: 85%;
+    width: 60%;
     display: flex;
     max-width: 1500px;
   }
@@ -29,7 +29,7 @@ button {
     padding: 0.5em;
   }
 }
-@media (min-width: 1000px) {
+@media (min-width: 768px) {
   .Container {
     width: 60%;
     display: flex;
